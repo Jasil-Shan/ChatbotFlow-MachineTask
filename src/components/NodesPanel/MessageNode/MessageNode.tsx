@@ -7,7 +7,7 @@ const onDragStart = (event, nodeType) => {
 const MessageNode = () => {
   return (
     <div
-      className="border-2 cursor-grab flex flex-col justify-center items-center border-violet-300 h-16 w-36"
+      className="border-2 cursor-grab flex flex-col justify-center items-center border-blue-900 rounded-lg h-16 w-36"
       onDragStart={(event) => onDragStart(event, "default")}
       draggable
     >
@@ -18,7 +18,7 @@ const MessageNode = () => {
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        className="w-6 h-6 text-violet-500"
+        className="w-6 h-6 text-blue-900"
       >
         <path
           stroke-linecap="round"
@@ -27,7 +27,7 @@ const MessageNode = () => {
         />
       </svg>
         </div>
-        <h6 className=" text-violet-500 mt-1 font-semibold">Message</h6>
+        <h6 className=" text-blue-900 mt-1 font-semibold">Message</h6>
     </div>
   );
 };
