@@ -5,9 +5,11 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   Controls,
+  Edge,
+  Background,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import SidePanel from "../../SidePanel/SidePanel";
+import SidePanel from "../../SidePanel/pages/SidePanel";
 import TextNode from "../Custom/TextNode/TextNode";
 import Navbar from "../../NavBar/pages/Navbar";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,15 +22,15 @@ const nodeTypes = {
 };
 
 const Flow = () => {
-  const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [selectedNode, setSelectedNode] = useState(null);
-  const [editedNode, setEditedNode] = useState();
+  const reactFlowWrapper = useRef<HTMLDivElement>(null)
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
+  const [reactFlowInstance, setReactFlowInstance] = useState(null)
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null)
+  const [editedNode, setEditedNode] = useState<string | undefined>()
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params: Edge) => setEdges((eds) => addEdge(params, eds)),
     []
   );
 
@@ -147,6 +149,7 @@ const Flow = () => {
               isValidConnection={isValidConnection}
             >
               <Controls />
+              <Background />
             </ReactFlow>
           </div>
           <SidePanel selectedNode={selectedNode} handleEdit={handleEdit} />

@@ -1,7 +1,10 @@
-import { Handle, Position } from "reactflow";
+import { Handle, NodeProps, Position } from "reactflow";
 
-const TextNode = ({data}) => {
-  
+type NodeData = {
+  label: string;
+};
+
+const TextNode = ({ data }: NodeProps<NodeData>) => {
   return (
     <div className=" shadow-lg w-48 rounded-lg bg-white  border-stone-400">
       <div className="flex rounded-lg">

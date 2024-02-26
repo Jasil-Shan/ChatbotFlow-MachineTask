@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import { SidePanelProps } from "../types";
 
-const SettingsPanel = ({ selectedNode, handleEdit, handleBack }) => {
+
+
+
+const SettingsPanel = ({ selectedNode, handleEdit, handleBack } : SidePanelProps) => {
   const handleChange = (e) => {
     const newText = e.target.value;
     handleEdit(newText);
@@ -9,7 +12,7 @@ const SettingsPanel = ({ selectedNode, handleEdit, handleBack }) => {
   return (
     <div className="flex flex-col border-b">
       <div className="h-10 font-semibold border-b flex justify-between w-full px-4 items-center">
-        <button onClick={ handleBack}>
+        <button onClick={handleBack}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -30,7 +33,7 @@ const SettingsPanel = ({ selectedNode, handleEdit, handleBack }) => {
         <span className="text-gray-600 p-2">Text</span>
         <textarea
           onChange={handleChange}
-          defaultValue={selectedNode.data.label}
+          defaultValue={selectedNode?.data.label}
           className="m-5 border-2 p-2"
           name="text"
           id="text"
