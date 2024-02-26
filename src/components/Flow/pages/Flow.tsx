@@ -7,6 +7,7 @@ import ReactFlow, {
   Controls,
   Edge,
   Background,
+  Node,
 } from "reactflow";
 import "reactflow/dist/style.css";
 import SidePanel from "../../SidePanel/pages/SidePanel";
@@ -24,8 +25,8 @@ const nodeTypes = {
 
 const Flow = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [editedNode, setEditedNode] = useState<string | undefined>();
@@ -77,25 +78,18 @@ const Flow = () => {
   }, []);
 
   const validateNodes = useCallback(() => {
-    // Checking if there are more than one nodes
-    if (nodes.length <= 1) {
-      return true;
-    }
-    // Checking if any node has empty target
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i];
-      const targetEdges = edges.filter((edge) => edge.target === node.id);
-      if (targetEdges.length === 0) {
-        return false;
-      }
-    }
-    return true;
-  }, [nodes, edges]);
+    const numberOfNodes = nodes.length;
+    const numberOfEdges = edges.length;
+
+    // Check if number of nodes is more than number of edges plus one
+    return numberOfNodes > numberOfEdges + 1;
+}, [nodes, edges]);
+
 
   //save node after editing
   const saveEditedNode = useCallback(() => {
     //validating nodes before saving
-    if (!validateNodes()) {
+    if (validateNodes()) {
       toast.error("Cannot Save Flow");
       return;
     }
