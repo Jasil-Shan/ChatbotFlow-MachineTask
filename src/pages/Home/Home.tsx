@@ -1,10 +1,8 @@
-import Flow from "../../components/Flow/Flow";
-import Navbar from "../../components/NavBar/Navbar";
+import Flow from "../../components/Flow/pages/Flow";
 
 const Home = () => {
   return (
     <>
-    <Navbar />
     <div className="h-screen w-full">
       <Flow />
     </div>

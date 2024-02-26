@@ -1,4 +1,4 @@
-import MessageNode from "./MessageNode/MessageNode";
+import MessageNode from "../MessageNode/MessageNode";
 
 const NodesPanel = () => {
   const onDragStart = (event, nodeType) => {

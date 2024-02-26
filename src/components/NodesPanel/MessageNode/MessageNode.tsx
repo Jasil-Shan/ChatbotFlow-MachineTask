@@ -7,7 +7,7 @@ const onDragStart = (event, nodeType) => {
 const MessageNode = () => {
   return (
     <div
-      className="border-2 cursor-grab flex flex-col justify-center items-center border-blue-900 rounded-lg h-16 w-36"
+      className="border-2 cursor-grab flex flex-col m-5 justify-center items-center border-blue-900 rounded-lg h-16 w-36"
       onDragStart={(event) => onDragStart(event, "Text Message")}
       draggable
     >
