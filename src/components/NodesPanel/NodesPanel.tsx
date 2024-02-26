@@ -7,9 +7,9 @@ const NodesPanel = () => {
   };
 
   return (
-    <aside>
+    <div className="flex flex-col gap-5">
       <MessageNode />
-    </aside>
+    </div>
   );
 };
 
