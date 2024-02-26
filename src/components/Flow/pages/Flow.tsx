@@ -10,6 +10,7 @@ import "reactflow/dist/style.css";
 import SidePanel from "../../SidePanel/SidePanel";
 import TextNode from "../Custom/TextNode/TextNode";
 import Navbar from "../../NavBar/pages/Navbar";
+import toast, { Toaster } from "react-hot-toast";
 
 let id = 0;
 const getId = () => `${id++}`;
@@ -67,15 +68,38 @@ const Flow = () => {
     setSelectedNode(node);
   }, []);
 
+  const validateNodes = useCallback(() => {
+    // Checking if there are more than one nodes
+    if (nodes.length <= 1) {
+      return true;
+    }
+    // Checking if any node has empty target
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const targetEdges = edges.filter((edge) => edge.target === node.id);
+      if (targetEdges.length === 0) {
+        return false;
+      }
+    }
+    return true;
+  }, [nodes, edges]);
+
   const saveEditedNode = useCallback(() => {
-    setNodes((prevNodes) =>
-      prevNodes.map((node) =>
-        node.id === selectedNode.id
-          ? { ...node, data: { ...node.data, label: editedNode } }
-          : node
-      )
-    );
-  }, [selectedNode, setNodes, editedNode]);
+    if (!validateNodes()) {
+      toast.error("Cannot Save Flow");
+      return;
+    }
+    if (editedNode) {
+      setNodes((prevNodes) =>
+        prevNodes.map((node) =>
+          node.id === selectedNode.id
+            ? { ...node, data: { ...node.data, label: editedNode } }
+            : node
+        )
+      );
+    }
+    toast.success("Saved Flow Successfully");
+  }, [selectedNode, setNodes, editedNode, validateNodes]);
 
   const handleEdit = (newText) => {
     setEditedNode(newText);
@@ -100,6 +124,7 @@ const Flow = () => {
 
   return (
     <>
+      <Toaster />
       <Navbar saveEditedNode={saveEditedNode} />
       <div className="dndflow flex flex-col md:flex-row flex-grow h-full">
         <ReactFlowProvider>
