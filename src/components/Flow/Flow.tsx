@@ -101,7 +101,7 @@ const Flow = () => {
             <Controls />
           </ReactFlow>
         </div>
-        <SidePanel selectedNode={selectedNode} updateNode={updateNodeLabel} />
+        <SidePanel selectedNode={selectedNode} updateNodeLabel={updateNodeLabel} />
       </ReactFlowProvider>
     </div>
   );
