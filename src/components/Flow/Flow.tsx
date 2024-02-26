@@ -7,36 +7,27 @@ import ReactFlow, {
   Controls,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import NodesPanel from "../NodesPanel/NodesPanel";
-import "./index.css";
-import TextNode from "../Custom/TextNode/TextNode";
-
-const initialNodes = [
-  {
-    id: "1",
-    type: "input",
-    data: { label: "input node" },
-    position: { x: 250, y: 5 },
-  },
-];
+import SidePanel from "../SidePanel/SidePanel";
+import TextNode from "./Custom/TextNode/TextNode";
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `${id++}`;
+
+const nodeTypes = {
+  custom: TextNode,
+};
 
 const Flow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(null);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     []
   );
-
-  const nodeTypes = {
-    custom: TextNode,
-  };
 
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -60,9 +51,9 @@ const Flow = () => {
       });
       const newNode = {
         id: getId(),
-        type: 'custom',
+        type: "custom",
         position,
-        data: { label: `${type} node` },
+        data: { label: `${type} ${id}` },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -70,10 +61,30 @@ const Flow = () => {
     [reactFlowInstance]
   );
 
+  const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+    setSelectedNode(node);
+  }, []);
+
+  const updateNodeLabel = useCallback(
+    (newLabel) => {
+      setNodes((prevNodes) =>
+        prevNodes.map((node) =>
+          node.id === selectedNode.id
+            ? { ...node, data: { ...node.data, label: newLabel } }
+            : node
+        )
+      );
+    },
+    [selectedNode, setNodes]
+  );
+
   return (
-    <div className="dndflow">
+    <div className="dndflow flex flex-col md:flex-row flex-grow h-full">
       <ReactFlowProvider>
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+        <div
+          className="reactflow-wrapper flex-grow h-full"
+          ref={reactFlowWrapper}
+        >
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -83,13 +94,14 @@ const Flow = () => {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
+            onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
             fitView
           >
             <Controls />
           </ReactFlow>
         </div>
-        <NodesPanel />
+        <SidePanel selectedNode={selectedNode} updateNode={updateNodeLabel} />
       </ReactFlowProvider>
     </div>
   );
