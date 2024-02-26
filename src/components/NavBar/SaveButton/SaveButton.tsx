@@ -1,4 +1,3 @@
-import React from "react";
 import { NavbarProps } from "../types";
 
 const SaveButton = ({ saveEditedNode }: NavbarProps) => {

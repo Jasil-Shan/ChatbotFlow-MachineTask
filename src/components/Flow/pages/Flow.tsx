@@ -14,6 +14,7 @@ import TextNode from "../Custom/TextNode/TextNode";
 import Navbar from "../../NavBar/pages/Navbar";
 import toast, { Toaster } from "react-hot-toast";
 
+
 let id = 0;
 const getId = () => `${id++}`;
 
@@ -23,8 +24,8 @@ const nodeTypes = {
 
 const Flow = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [editedNode, setEditedNode] = useState<string | undefined>();
@@ -52,7 +53,7 @@ const Flow = () => {
         return;
       }
 
-      const position = reactFlowInstance.screenToFlowPosition({
+      const position = reactFlowInstance?.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
@@ -71,7 +72,7 @@ const Flow = () => {
   );
 
   //function for selecting node when click
-  const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+  const onNodeClick = useCallback((event:MouseEvent, node: Node) => {
     setSelectedNode(node);
   }, []);
 
@@ -101,7 +102,7 @@ const Flow = () => {
     if (editedNode) {
       setNodes((prevNodes) =>
         prevNodes.map((node) =>
-          node.id === selectedNode.id
+          node.id === selectedNode?.id
             ? { ...node, data: { ...node.data, label: editedNode } }
             : node
         )
@@ -110,7 +111,7 @@ const Flow = () => {
     toast.success("Saved Flow Successfully");
   }, [selectedNode, setNodes, editedNode, validateNodes]);
 
-  const handleEdit = (newText) => {
+  const handleEdit = (newText : string) => {
     setEditedNode(newText);
   };
 

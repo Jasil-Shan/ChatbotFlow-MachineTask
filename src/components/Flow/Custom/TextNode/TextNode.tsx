@@ -10,14 +10,14 @@ const TextNode = ({ data }: NodeProps<NodeData>) => {
     <div className=" shadow-lg w-48 rounded-lg bg-white  border-stone-400">
       <div className="flex rounded-lg">
         <div className="w-full ">
-          <div className="bg-green-300 rounded-t-lg flex items-center py-1 px-2 h-fit text-xs font-bold">
+          <div className="bg-teal-200 rounded-t-lg flex items-center py-1 px-2 h-fit text-xs font-bold">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              className="w-3 h-3 text-violet-500 "
+              className="w-3 text-violet-500 "
             >
               <path
                 stroke-linecap="round"

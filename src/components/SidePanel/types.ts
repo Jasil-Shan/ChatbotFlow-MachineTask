@@ -10,7 +10,7 @@ export type NodeData = {
 export type CustomNode = Node<NodeData>;
 
 export type SidePanelProps = {
-  selectedNode: CustomNode | null;
+  selectedNode: CustomNode;
   handleEdit: (newText: string) => void;
   handleBack?: () => void;
 }
