@@ -3,7 +3,6 @@ import SettingsPanel from "../SettingsPanel/SettingsPanel";
 import NodesPanel from "../NodesPanel/pages/NodesPanel";
 import { SidePanelProps } from "../types";
 
-
 const SidePanel = ({ selectedNode, handleEdit }: SidePanelProps) => {
   const [selected, setSelected] = useState(false);
 
@@ -18,8 +17,10 @@ const SidePanel = ({ selectedNode, handleEdit }: SidePanelProps) => {
   }, [selectedNode]);
 
   return (
-    <aside className="border-l-2  md:w-1/4">
+    // this will allow horizontal scrolling when adding more settings or Node types
+    <aside className="border-l-2 overflow-y-auto md:w-1/4">
       {selected && selected ? (
+        //conditionally rendering panels when selecting nodes
         <SettingsPanel
           key={selectedNode?.id}
           selectedNode={selectedNode}

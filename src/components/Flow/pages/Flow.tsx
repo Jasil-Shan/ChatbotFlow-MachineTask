@@ -22,23 +22,25 @@ const nodeTypes = {
 };
 
 const Flow = () => {
-  const reactFlowWrapper = useRef<HTMLDivElement>(null)
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
-  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
-  const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const [selectedNode, setSelectedNode] = useState<Node | null>(null)
-  const [editedNode, setEditedNode] = useState<string | undefined>()
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [editedNode, setEditedNode] = useState<string | undefined>();
 
   const onConnect = useCallback(
     (params: Edge) => setEdges((eds) => addEdge(params, eds)),
     []
   );
 
+  //function for draging elements
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
 
+  //function for drop elements
   const onDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
@@ -54,6 +56,8 @@ const Flow = () => {
         x: event.clientX,
         y: event.clientY,
       });
+
+      //setting custom node and label
       const newNode = {
         id: getId(),
         type: "custom",
@@ -66,6 +70,7 @@ const Flow = () => {
     [reactFlowInstance]
   );
 
+  //function for selecting node when click
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node);
   }, []);
@@ -86,7 +91,9 @@ const Flow = () => {
     return true;
   }, [nodes, edges]);
 
+  //save node after editing
   const saveEditedNode = useCallback(() => {
+    //validating nodes before saving
     if (!validateNodes()) {
       toast.error("Cannot Save Flow");
       return;
@@ -107,6 +114,7 @@ const Flow = () => {
     setEditedNode(newText);
   };
 
+  //validating target handle
   const isValidConnection = useCallback(
     (connection) => {
       const { source, target } = connection;

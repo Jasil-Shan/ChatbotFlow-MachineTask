@@ -3,6 +3,7 @@ import { Handle, NodeProps, Position } from "reactflow";
 type NodeData = {
   label: string;
 };
+//custom node styled with tailwind
 
 const TextNode = ({ data }: NodeProps<NodeData>) => {
   return (

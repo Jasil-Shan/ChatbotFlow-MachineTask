@@ -2,7 +2,8 @@ import MessageNode from "../MessageNode/MessageNode";
 
 const NodesPanel = () => {
   return (
-    <div className="flex flex-col gap-5">
+    // grid columns will make this extensible
+    <div className="grid grid-cols-2 gap-5"> 
       <MessageNode />
     </div>
   );
